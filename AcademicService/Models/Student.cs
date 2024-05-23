@@ -1,4 +1,4 @@
-﻿namespace AdministrationService.Models
+﻿namespace AcademicService.Models
 {
     public class Student
     {
