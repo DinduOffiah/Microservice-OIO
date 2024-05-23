@@ -1,10 +1,8 @@
-﻿namespace AdministrationService.Models
+﻿namespace AdministrationService.DTOs
 {
-    public class Student
+    public class StudentDTO
     {
-        public Guid Id { get; set; }
         public string? Name { get; set; }
         public string? Department { get; set; }
-
     }
 }

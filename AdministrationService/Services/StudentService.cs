@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using AdministrationService.Interface;
 using AdministrationService.Models;
 
-namespace RegisterService.Services
+namespace AdministrationService.Services
 {
     public class StudentService : IStudentService
     {
