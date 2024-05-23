@@ -1,42 +1,33 @@
-﻿using AppDbContext.Data;
+﻿using AdministrationService.Interface;
+using AppDbContext.Data;
 using Microsoft.EntityFrameworkCore;
-using RegisterService.Interface;
-using RegisterService.Models;
+using AdministrationService.Interface;
+using AdministrationService.Models;
 
 namespace RegisterService.Services
 {
     public class StudentService : IStudentService
     {
-        private readonly RegisterDbContext _context;
-        private readonly INotificationService _notificationService;
+        private readonly AdminDbContext _context;
 
 
-        public StudentService(RegisterDbContext context, INotificationService notificationService)
+        public StudentService(AdminDbContext context)
         {
             _context = context;
-            _notificationService = notificationService;
         }
 
-        public async Task<Patient> RegisterPatientAsync(Patient patient)
+        public async Task<Student> RegisterStudentAsync(Student student)
         {
-            patient.Id = Guid.NewGuid();
-            _context.Patients.Add(patient);
+            student.Id = Guid.NewGuid();
+            _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
-            // Notify VitalService about new patient
-            await _notificationService.NotifyNewPatientAsync(patient);
-
-            return patient;
+            return student;
         }
 
-        public async Task<Patient> GetPatientAsync(Guid id)
+        public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {
-            return await _context.Patients.FindAsync(id);
-        }
-
-        public async Task<IEnumerable<Patient>> GetAllPatientsAsync()
-        {
-            return await _context.Patients.ToListAsync();
+            return await _context.Students.ToListAsync();
         }
     }
 
