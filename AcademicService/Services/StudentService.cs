@@ -1,17 +1,15 @@
-﻿using AdministrationService.Interface;
+﻿using AcademicService.Interface;
+using AcademicService.Models;
 using AppDbContext.Data;
-using Microsoft.EntityFrameworkCore;
-using AdministrationService.Interface;
-using AdministrationService.Models;
 
-namespace AdministrationService.Services
+namespace AcademicService.Services
 {
     public class StudentService : IStudentService
     {
-        private readonly AdminDbContext _context;
+        private readonly AcademicDbContext _context;
 
 
-        public StudentService(AdminDbContext context)
+        public StudentService(AcademicDbContext context)
         {
             _context = context;
         }
