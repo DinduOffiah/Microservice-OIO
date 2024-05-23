@@ -1,4 +1,6 @@
-﻿using AdministrationService.Interface;
+﻿using AdministrationService.DTOs;
+using AdministrationService.Interface;
+using AdministrationService.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
@@ -35,38 +37,23 @@ namespace AdministrationService.Controllers
         }
 
        [HttpPost("register")]
-        public async Task<IActionResult> RegisterStudent([FromBody] PatientDTO patientDto)
+        public async Task<IActionResult> RegisterStudent([FromBody] StudentDTO studentDTO)
         {
-            var patient = new Patient
+            var student = new Student
             {
-                Name = patientDto.Name,
-                DateOfBirth = patientDto.DateOfBirth
+                Name = studentDTO.Name,
+                Department = studentDTO.Department,
             };
 
             try
             {
-                await _patientService.RegisterPatientAsync(patient);
-                return Ok(patient);
+                await _studentService.RegisterStudentAsync(student);
+                return Ok(student);
             }
             catch (HttpRequestException ex)
             {
-                Log.Error(ex, "An error occurred during patient registration");
                 return StatusCode(500, "Internal server error");
             }
-        }
-
-
-        [HttpGet("GetPatient/{id}")]
-        public async Task<IActionResult> GetPatient(Guid id)
-        {
-            var patient = await _patientService.GetPatientAsync(id);
-
-            if (patient == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(patient);
         }
     }
 
