@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using AdministrationService.Models;
-using System.Collections.Generic;
+using AcademicService.Models;
 
 namespace AppDbContext.Data
 {

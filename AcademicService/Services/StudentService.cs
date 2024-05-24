@@ -1,6 +1,7 @@
 ﻿using AcademicService.Interface;
 using AcademicService.Models;
 using AppDbContext.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace AcademicService.Services
 {

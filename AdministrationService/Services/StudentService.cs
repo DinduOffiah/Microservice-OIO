@@ -1,8 +1,8 @@
 ﻿using AdministrationService.Interface;
 using AppDbContext.Data;
-using Microsoft.EntityFrameworkCore;
 using AdministrationService.Interface;
 using AdministrationService.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdministrationService.Services
 {
