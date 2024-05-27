@@ -1,6 +1,7 @@
 ﻿using AdministrationService.DTOs;
 using AdministrationService.Interface;
 using AdministrationService.Models;
+using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
@@ -13,10 +14,12 @@ namespace AdministrationService.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly IStudentService _studentService;
+        private readonly IBus _bus;
 
-        public StudentsController(IStudentService studentService)
+        public StudentsController(IStudentService studentService, IBus bus)
         {
             _studentService = studentService;
+            _bus = bus;
         }
 
         [HttpGet("GetAllStudents")]
