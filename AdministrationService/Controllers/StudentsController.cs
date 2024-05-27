@@ -1,6 +1,7 @@
 ﻿using AdministrationService.DTOs;
 using AdministrationService.Interface;
 using AdministrationService.Models;
+using AdministrationService.Publisher;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +52,9 @@ namespace AdministrationService.Controllers
             try
             {
                 await _studentService.RegisterStudentAsync(student);
+
+                await _bus.Publish(new StudentCreatedEvent(student.Id, student.Name, student.Department));
+
                 return Ok(student);
             }
             catch (HttpRequestException ex)
