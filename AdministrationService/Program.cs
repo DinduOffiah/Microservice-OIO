@@ -1,6 +1,7 @@
 using AdministrationService.Interface;
 using AdministrationService.Services;
 using AppDbContext.Data;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AdminDbContext>(options => options.UseSqlServer(connectionString));
 
+// Add MassTransit
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("rabbitmq://localhost");
+    });
+});
+builder.Services.AddMassTransitHostedService();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -31,7 +41,6 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 builder.Host.UseSerilog();
-
 
 var app = builder.Build();
 

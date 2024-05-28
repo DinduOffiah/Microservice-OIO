@@ -1,4 +1,5 @@
-﻿using AcademicService.Interface;
+﻿using AcademicService.Consumers;
+using AcademicService.Interface;
 using AcademicService.Models;
 using AppDbContext.Data;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,21 @@ namespace AcademicService.Services
         public async Task<Student> RegisterStudentAsync(Student student)
         {
             student.Id = Guid.NewGuid();
+            _context.Students.Add(student);
+            await _context.SaveChangesAsync();
+
+            return student;
+        }
+
+        public async Task<Student> SaveStudentAsync(StudentCreatedEvent studentCreatedEvent)
+        {
+            var student = new Student
+            {
+                Id = studentCreatedEvent.StudentId,
+                Name = studentCreatedEvent.Name,
+                Department = studentCreatedEvent.Department
+            };
+
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
