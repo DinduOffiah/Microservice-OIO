@@ -16,19 +16,19 @@ public class StudentCreatedEventConsumer : IConsumer<StudentCreatedEvent>
 
     public async Task Consume(ConsumeContext<StudentCreatedEvent> context)
     {
-        var studentId = context.Message.StudentId;
-
-        // Logging the received event
-        _logger.LogInformation("Received StudentCreatedEvent with StudentId: {StudentId}", studentId);
+        _logger.LogInformation("Received StudentCreatedEvent with StudentId: {StudentId}", context.Message.StudentId);
 
         var student = new Student
         {
-            Id = studentId,
+            Id = context.Message.StudentId,
             Name = context.Message.Name,
             Department = context.Message.Department
         };
 
+        _logger.LogInformation("Registering student with StudentId: {StudentId}", student.Id);
         await _studentService.RegisterStudentAsync(student);
+        _logger.LogInformation("Registered student with StudentId: {StudentId}", student.Id);
     }
-}
 
+
+}

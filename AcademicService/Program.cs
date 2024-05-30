@@ -4,6 +4,7 @@ using MassTransit;
 using AcademicService.Consumers;
 using AcademicService.Interface;
 using AcademicService.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,15 @@ builder.Services.AddMassTransit(x =>
     });
 });
 builder.Services.AddMassTransitHostedService();
+
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 

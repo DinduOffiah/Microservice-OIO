@@ -48,26 +48,28 @@ namespace AdministrationService.Controllers
         {
             var student = new Student
             {
-                Id = Guid.NewGuid(), // Generate ID here
                 Name = studentDTO.Name,
                 Department = studentDTO.Department,
             };
 
             try
             {
+                _logger.LogInformation("Registering student with Name: {Name}, Department: {Department}", student.Name, student.Department);
                 await _studentService.RegisterStudentAsync(student);
+                _logger.LogInformation("Registered student with Id: {Id}", student.Id);
 
+                _logger.LogInformation("Publishing StudentCreatedEvent for StudentId: {StudentId}", student.Id);
                 await _bus.Publish(new StudentCreatedEvent(student.Id, student.Name, student.Department));
-
-                _logger.LogInformation("StudentCreatedEvent published with StudentId: {StudentId}", student.Id);
+                _logger.LogInformation("Published StudentCreatedEvent for StudentId: {StudentId}", student.Id);
 
                 return Ok(student);
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while registering the student");
                 return StatusCode(500, "Internal server error");
             }
         }
+
     }
 }

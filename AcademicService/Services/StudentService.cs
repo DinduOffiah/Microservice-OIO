@@ -18,7 +18,6 @@ namespace AcademicService.Services
 
         public async Task<Student> RegisterStudentAsync(Student student)
         {
-            student.Id = Guid.NewGuid();
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 

@@ -2,7 +2,6 @@ using AdministrationService.Interface;
 using AdministrationService.Services;
 using AppDbContext.Data;
 using MassTransit;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
@@ -25,6 +24,7 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host("rabbitmq://localhost");
+        cfg.ConfigureEndpoints(context);
     });
 });
 builder.Services.AddMassTransitHostedService();
@@ -36,6 +36,7 @@ builder.Services.AddSwaggerGen();
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
     .WriteTo.Console()
     .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
