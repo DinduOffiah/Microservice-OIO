@@ -40,7 +40,6 @@ namespace AdministrationService.Controllers
                 return NotFound("No student found.");
             }
 
-
         }
 
         [HttpPost("register")]

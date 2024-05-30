@@ -9,6 +9,7 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ISenateList, SenateListService>();
 
 // Add services to the container.
 builder.Services.AddControllers();

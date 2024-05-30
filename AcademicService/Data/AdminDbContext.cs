@@ -12,6 +12,8 @@ namespace AppDbContext.Data
 
         public DbSet<Student> Students { get; set; }
 
+        public DbSet<SenateList> SenateLists { get; set; }
+
         //For correctly mapping "Decimal" data type to the corresponding column in the database.
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
