@@ -12,6 +12,7 @@ public class StudentCreatedEventConsumer : IConsumer<StudentCreatedEvent>
     {
         _studentService = studentService;
         _logger = logger;
+        _logger.LogInformation("StudentCreatedEventConsumer initialized.");
     }
 
     public async Task Consume(ConsumeContext<StudentCreatedEvent> context)
@@ -29,6 +30,4 @@ public class StudentCreatedEventConsumer : IConsumer<StudentCreatedEvent>
         await _studentService.RegisterStudentAsync(student);
         _logger.LogInformation("Registered student with StudentId: {StudentId}", student.Id);
     }
-
-
 }
