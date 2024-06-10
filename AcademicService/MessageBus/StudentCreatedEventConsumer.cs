@@ -17,6 +17,7 @@ public class StudentCreatedEventConsumer : IConsumer<StudentCreatedEvent>
 
     public async Task Consume(ConsumeContext<StudentCreatedEvent> context)
     {
+        Console.WriteLine($"Received: {context.Message.Name}");
         _logger.LogInformation("Received StudentCreatedEvent with StudentId: {StudentId}", context.Message.StudentId);
 
         var student = new Student

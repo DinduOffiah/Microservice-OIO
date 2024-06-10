@@ -26,12 +26,24 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("rabbitmq://localhost");
+        cfg.Host("rabbitmq://localhost", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        cfg.UseMessageRetry(r =>
+        {
+            r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(2));
+        });
 
         cfg.ReceiveEndpoint("StudentCreatedEventQueue", ep =>
         {
             ep.ConfigureConsumer<StudentCreatedEventConsumer>(context);
         });
+
+        cfg.ConfigureEndpoints(context);
+
     });
 });
 builder.Services.AddMassTransitHostedService();
